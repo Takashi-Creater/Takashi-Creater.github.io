@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Takashi Creater | Travel</title>
+<meta name="keywords" content="travel, tourism, 旅行">
+<meta name="description" content="世界の旅行スポット集">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+  background: #f5f5f5;
+  color: #333;
+}
+.travel-app {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.header {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 50%, #c92a2a 100%);
+  color: white;
+  padding: 40px 20px;
+  border-radius: 16px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+.header h1 {
+  font-size: 32px;
+  font-weight: 300;
+  margin-bottom: 8px;
+}
+.header p {
+  font-size: 14px;
+  opacity: 0.9;
+}
+.category-filter {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  scrollbar-width: none;
+}
+.category-filter::-webkit-scrollbar {
+  display: none;
+}
+.category-btn {
+  flex-shrink: 0;
+  padding: 10px 16px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+.category-btn:hover {
+  border-color: #ff6b6b;
+  color: #ff6b6b;
+}
+.category-btn.active {
+  background: #ff6b6b;
+  color: white;
+  border-color: #ff6b6b;
+}
+.spots-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.spot-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.spot-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+}
+.spot-image {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+}
+.spot-content {
+  padding: 20px;
+}
+.spot-category {
+  display: inline-block;
+  font-size: 12px;
+  color: #ff6b6b;
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.spot-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+.spot-location {
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.spot-description {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.spot-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.highlight {
+  display: inline-block;
+  padding: 6px 12px;
+  background: #f5f5f5;
+  border-radius: 12px;
+  font-size: 12px;
+  color: #666;
+}
+.spot-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+.spot-rating {
+  font-size: 14px;
+  color: #ff6b6b;
+}
+.spot-link {
+  color: #ff6b6b;
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.spot-link:hover {
+  text-decoration: underline;
+}
+.back-link {
+  text-align: center;
+  margin-top: 30px;
+  padding: 20px;
+}
+.back-link a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 12px 24px;
+  background: #ff6b6b;
+  border: none;
+  border-radius: 20px;
+  display: inline-block;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.back-link a:hover {
+  background: #ee5a6f;
+  transform: scale(1.05);
+}
+</style>
+</head>
+<body>
+<div class="travel-app">
+  <div class="header">
+    <h1>旅行スポット</h1>
+    <p>世界のおすすめ観光地を探索</p>
+  </div>
+  
+  <div class="category-filter">
+    <button class="category-btn active" data-category="all">すべて</button>
+    <button class="category-btn" data-category="asia">アジア</button>
+    <button class="category-btn" data-category="europe">ヨーロッパ</button>
+    <button class="category-btn" data-category="america">アメリカ大陸</button>
+    <button class="category-btn" data-category="nature">自然</button>
+    <button class="category-btn" data-category="culture">文化遺産</button>
+  </div>
+  
+  <div class="spots-list" id="spots-list"></div>
+  
+  <div class="back-link">
+    <a href="home.html">← ホームへ戻る</a>
+  </div>
+</div>
+
+<script>
+const spots = [
+  {
+    id: 1,
+    title: '富士山',
+    location: '日本',
+    category: 'asia',
+    image: 'https://images.unsplash.com/photo-1522383507006-bf6c10e87ba4?w=500&h=300&fit=crop',
+    link: 'https://ja.wikipedia.org/wiki/富士山',
+    description: '世界遺産に登録された日本を代表する山。四季折々の美しい景色が楽しめます。登山スポットとしても人気です。',
+    highlights: ['世界遺産', '登山', '絶景'],
+    rating: '★★★★★'
+  },
+  {
+    id: 2,
+    title: 'タージ・マハル',
+    location: 'インド',
+    category: 'culture',
+    image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=500&h=300&fit=crop',
+    link: 'https://ja.wikipedia.org/wiki/タージ・マハル',
+    description: 'インドの誇る白い大理石の廟。ムガル帝国の建築傑作で、世界遺産です。夕焼けの時間帯が特に美しいです。',
+    highlights: ['世界遺産', '建築', '歴史'],
+    rating: '★★★★★'
+  },
+  {
+    id: 3,
+    title: 'グレート・バリア・リーフ',
+    location: 'オーストラリア',
+    category: 'nature',
+    image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=500&h=300&fit=crop',
+    link: 'https://ja.wikipedia.org/wiki/グレート・バリア・リーフ',
+    description: '世界最大のサンゴ礁。色とりどりの魚が泳ぎ、ダイビングやシュノーケリングに最適です。',
+    highlights: ['ダイビング', '海洋生物', '自然'],
+    rating: '★★★★★'
+  },
+  {
+    id: 4,
+    title: 'パリ',
+    location: 'フランス',
+    category: 'europe',
+    image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=500&h=300&fit=crop',
+    link: 'https://ja.wikipedia.org/wiki/パリ',
+    description: '光の都パリ。エッフェル塔をはじめ、ルーヴル美術館など見どころが満載です。カフェ文化も魅力的。',
+    highlights: ['建築', 'アート', 'グルメ'],
+    rating: '★★★★★'
+  },
+  {
+    id: 5,
+    title: 'イグアスの滝',
+    location: 'アルゼンチン・ブラジル',
+    category: 'nature',
+    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=500&h=300&fit=crop',
+    link: 'https://ja.wikipedia.org/wiki/イグアスの滝',
+    description: 'ナイアガラ滝よりも大きいとされる壮大な滝。原始的な自然がそのまま残っています。',
+    highlights: ['自然', '絶景', 'ハイキング'],
+    rating: '★★★★★'
+  },
+  {
+    id: 6,
+    title: 'ピラミッド',
+    location: 'エジプト',
+    category: 'culture',
+    image: 'https://images.unsplash.com/photo-1570186309181-65fa6c8c7b04?w=500&h=300&fit=crop',
+    link: 'https://ja.wikipedia.org/wiki/ピラミッド',
+    description: '古代エジプトの文明を象徴する建造物。クフ王のピラミッドは世界遺産です。',
+    highlights: ['世界遺産', '歴史', '建築'],
+    rating: '★★★★★'
+  },
+  {
+    id: 7,
+    title: 'バンコク',
+    location: 'タイ',
+    category: 'asia',
+    image: 'https://images.unsplash.com/photo-1508009603419-da8f8636e75b?w=500&h=300&fit=crop',
+    link: 'https://ja.wikipedia.org/wiki/バンコク',
+    description: 'アジアの活気あふれる都市。寺院、市場、グルメがあり、バックパッカーの天国です。',
+    highlights: ['寺院', '市場', 'グルメ'],
+    rating: '★★★★☆'
+  },
+  {
+    id: 8,
+    title: 'マチュピチュ',
+    location: 'ペルー',
+    category: 'culture',
+    image: 'https://images.unsplash.com/photo-1587595431973-160763cb1e8f?w=500&h=300&fit=crop',
+    link: 'https://ja.wikipedia.org/wiki/マチュピチュ',
+    description: 'インカの古代遺跡。空中都市とも呼ばれ、山々に囲まれた神秘的な場所です。',
+    highlights: ['世界遺産', '登山', '歴史'],
+    rating: '★★★★★'
+  },
+  {
+    id: 9,
+    title: 'ハワイ',
+    location: 'アメリカ',
+    category: 'america',
+    image: 'https://images.unsplash.com/photo-1542259009477-d625272157b7?w=500&h=300&fit=crop',
+    link: 'https://ja.wikipedia.org/wiki/ハワイ州',
+    description: 'ビーチリゾートの代名詞。美しい海、火山、独特の文化が魅力です。',
+    highlights: ['ビーチ', 'サーフィン', 'リゾート'],
+    rating: '★★★★☆'
+  },
+  {
+    id: 10,
+    title: 'キューバ',
+    location: 'カリブ海',
+    category: 'america',
+    image: 'https://images.unsplash.com/photo-1552752857-e5e2cb5fb6b4?w=500&h=300&fit=crop',
+    link: 'https://ja.wikipedia.org/wiki/キューバ',
+    description: '昔を感じさせるカラフルな街並みが特徴。古い車、音楽、ラムカルチャーがあります。',
+    highlights: ['文化', '歴史', 'リゾート'],
+    rating: '★★★★☆'
+  }
+];
+
+let currentCategory = 'all';
+
+document.querySelectorAll('.category-btn').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    currentCategory = e.target.dataset.category;
+    renderSpots();
+  });
+});
+
+function renderSpots() {
+  const spotsList = document.getElementById('spots-list');
+  const filtered = currentCategory === 'all' 
+    ? spots 
+    : spots.filter(spot => spot.category === currentCategory);
+  
+  spotsList.innerHTML = filtered.map(spot => `
+    <div class="spot-card">
+      <div class="spot-image" style="background-image: url('${spot.image}');"></div>
+      <div class="spot-content">
+        <div class="spot-category">${spot.category.toUpperCase()}</div>
+        <h2 class="spot-title">${spot.title}</h2>
+        <div class="spot-location">📍 ${spot.location}</div>
+        <p class="spot-description">${spot.description}</p>
+        <div class="spot-highlights">
+          ${spot.highlights.map(h => `<span class="highlight">${h}</span>`).join('')}
+        </div>
+        <div class="spot-footer">
+          <div class="spot-rating">${spot.rating}</div>
+          <a href="${spot.link}" target="_blank" class="spot-link">詳細を見る →</a>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+window.addEventListener('load', renderSpots);
+</script>
+</body>
+</html>

@@ -232,7 +232,6 @@ async function loadSpots() {
 
 function renderSpots() {
   const spotsList = document.getElementById('spots-list');
-  const spotsList = document.getElementById('spots-list');
   const filtered = currentCategory === 'all' 
     ? spots 
     : spots.filter(spot => spot.category === currentCategory);
@@ -250,7 +249,7 @@ function renderSpots() {
         </div>
         <div class="spot-footer">
           <div class="spot-rating">${spot.rating}</div>
-          <a href="${spot.link}" target="_blank" class="spot-link">詳細を見る →</a>
+          <a href="spot.html?id=${spot.slug}" class="spot-link">詳細を見る →</a>
         </div>
       </div>
     </div>

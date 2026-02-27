@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Takashi Creater | Travel Spot</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',sans-serif;background:#f5f5f5;color:#333}
+.wrap{max-width:860px;margin:0 auto;padding:20px}.card{background:#fff;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.08);overflow:hidden}
+.hero{height:320px;background:#ddd center/cover no-repeat;display:flex;align-items:flex-end}.hero-overlay{width:100%;padding:24px;background:linear-gradient(to top,rgba(0,0,0,.55),transparent)}
+.title{color:#fff;margin:0;font-size:36px}.meta{color:#f2f2f2;font-size:14px;margin-top:8px}.content{padding:24px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 20px}.chip{background:#f2f2f2;border-radius:999px;padding:6px 12px;font-size:12px}
+.rating{font-size:18px;color:#ff6b6b;margin:0 0 16px}.links{display:flex;gap:12px;flex-wrap:wrap}.btn{display:inline-block;padding:10px 16px;border-radius:10px;text-decoration:none;font-weight:600}
+.btn-main{background:#ff6b6b;color:#fff}.btn-sub{background:#eee;color:#333}.notfound{text-align:center;padding:48px 20px}
+</style>
+</head>
+<body>
+<div class="wrap"><div id="app"></div></div>
+<script>
+async function init(){
+  const id=new URLSearchParams(location.search).get('id');
+  const app=document.getElementById('app');
+  try{
+    const res=await fetch('spots.json');
+    const spots=await res.json();
+    const spot=spots.find(s=>s.slug===id);
+    if(!spot){
+      app.innerHTML='<div class="card notfound"><h1>スポットが見つかりません</h1><p>URLが正しいか確認してください。</p><p><a class="btn btn-main" href="./">旅行ページへ戻る</a></p></div>';
+      return;
+    }
+    document.title=`Takashi Creater | ${spot.title}`;
+    app.innerHTML=`<article class="card"><div class="hero" style="background-image:url('${spot.image}')"><div class="hero-overlay"><h1 class="title">${spot.title}</h1><p class="meta">📍 ${spot.location} / ${spot.category}</p></div></div><div class="content"><p class="rating">${spot.rating}</p><p>${spot.description}</p><div class="chips">${spot.highlights.map(h=>`<span class="chip">${h}</span>`).join('')}</div><div class="links"><a class="btn btn-main" href="./">← 旅行ページへ戻る</a><a class="btn btn-sub" href="../">ホームへ</a></div></div></article>`;
+  }catch(e){
+    app.innerHTML='<div class="card notfound"><h1>読み込みエラー</h1><p>データの取得に失敗しました。</p><p><a class="btn btn-main" href="./">旅行ページへ戻る</a></p></div>';
+  }
+}
+init();
+</script>
+</body>
+</html>

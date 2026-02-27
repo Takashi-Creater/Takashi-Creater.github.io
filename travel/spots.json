@@ -5,14 +5,14 @@
     "location": "日本",
     "category": "asia",
     "image": "images/spot_1.jpg",
-    "link": "https://ja.wikipedia.org/wiki/富士山",
     "description": "世界遺産に登録された日本を代表する山。四季折々の美しい景色が楽しめます。登山スポットとしても人気です。",
     "highlights": [
       "世界遺産",
       "登山",
       "絶景"
     ],
-    "rating": "★★★★★"
+    "rating": "★★★★★",
+    "slug": "fuji"
   },
   {
     "id": 2,
@@ -20,14 +20,14 @@
     "location": "インド",
     "category": "culture",
     "image": "images/spot_2.jpg",
-    "link": "https://ja.wikipedia.org/wiki/タージ・マハル",
     "description": "インドの誇る白い大理石の廟。ムガル帝国の建築傑作で、世界遺産です。夕焼けの時間帯が特に美しいです。",
     "highlights": [
       "世界遺産",
       "建築",
       "歴史"
     ],
-    "rating": "★★★★★"
+    "rating": "★★★★★",
+    "slug": "taj-mahal"
   },
   {
     "id": 3,
@@ -35,14 +35,14 @@
     "location": "オーストラリア",
     "category": "nature",
     "image": "images/spot_3.jpg",
-    "link": "https://ja.wikipedia.org/wiki/グレート・バリア・リーフ",
     "description": "世界最大のサンゴ礁。色とりどりの魚が泳ぎ、ダイビングやシュノーケリングに最適です。",
     "highlights": [
       "ダイビング",
       "海洋生物",
       "自然"
     ],
-    "rating": "★★★★★"
+    "rating": "★★★★★",
+    "slug": "great-barrier-reef"
   },
   {
     "id": 4,
@@ -50,14 +50,14 @@
     "location": "フランス",
     "category": "europe",
     "image": "images/spot_4.jpg",
-    "link": "https://ja.wikipedia.org/wiki/パリ",
     "description": "光の都パリ。エッフェル塔をはじめ、ルーヴル美術館など見どころが満載です。カフェ文化も魅力的。",
     "highlights": [
       "建築",
       "アート",
       "グルメ"
     ],
-    "rating": "★★★★★"
+    "rating": "★★★★★",
+    "slug": "paris"
   },
   {
     "id": 5,
@@ -65,14 +65,14 @@
     "location": "アルゼンチン・ブラジル",
     "category": "nature",
     "image": "images/spot_5.jpg",
-    "link": "https://ja.wikipedia.org/wiki/イグアスの滝",
     "description": "ナイアガラ滝よりも大きいとされる壮大な滝。原始的な自然がそのまま残っています。",
     "highlights": [
       "自然",
       "絶景",
       "ハイキング"
     ],
-    "rating": "★★★★★"
+    "rating": "★★★★★",
+    "slug": "iguazu"
   },
   {
     "id": 6,
@@ -80,14 +80,14 @@
     "location": "エジプト",
     "category": "culture",
     "image": "images/spot_6.jpg",
-    "link": "https://ja.wikipedia.org/wiki/ピラミッド",
     "description": "古代エジプトの文明を象徴する建造物。クフ王のピラミッドは世界遺産です。",
     "highlights": [
       "世界遺産",
       "歴史",
       "建築"
     ],
-    "rating": "★★★★★"
+    "rating": "★★★★★",
+    "slug": "pyramid"
   },
   {
     "id": 7,
@@ -95,14 +95,14 @@
     "location": "タイ",
     "category": "asia",
     "image": "images/spot_7.jpg",
-    "link": "https://ja.wikipedia.org/wiki/バンコク",
     "description": "アジアの活気あふれる都市。寺院、市場、グルメがあり、バックパッカーの天国です。",
     "highlights": [
       "寺院",
       "市場",
       "グルメ"
     ],
-    "rating": "★★★★☆"
+    "rating": "★★★★☆",
+    "slug": "bangkok"
   },
   {
     "id": 8,
@@ -110,14 +110,14 @@
     "location": "ペルー",
     "category": "culture",
     "image": "images/spot_8.jpg",
-    "link": "https://ja.wikipedia.org/wiki/マチュピチュ",
     "description": "インカの古代遺跡。空中都市とも呼ばれ、山々に囲まれた神秘的な場所です。",
     "highlights": [
       "世界遺産",
       "登山",
       "歴史"
     ],
-    "rating": "★★★★★"
+    "rating": "★★★★★",
+    "slug": "machu-picchu"
   },
   {
     "id": 9,
@@ -125,14 +125,14 @@
     "location": "アメリカ",
     "category": "america",
     "image": "images/spot_9.jpg",
-    "link": "https://ja.wikipedia.org/wiki/ハワイ州",
     "description": "ビーチリゾートの代名詞。美しい海、火山、独特の文化が魅力です。",
     "highlights": [
       "ビーチ",
       "サーフィン",
       "リゾート"
     ],
-    "rating": "★★★★☆"
+    "rating": "★★★★☆",
+    "slug": "hawaii"
   },
   {
     "id": 10,
@@ -140,13 +140,13 @@
     "location": "カリブ海",
     "category": "america",
     "image": "images/spot_10.jpg",
-    "link": "https://ja.wikipedia.org/wiki/キューバ",
     "description": "昔を感じさせるカラフルな街並みが特徴。古い車、音楽、ラムカルチャーがあります。",
     "highlights": [
       "文化",
       "歴史",
       "リゾート"
     ],
-    "rating": "★★★★☆"
+    "rating": "★★★★☆",
+    "slug": "cuba"
   }
 ]

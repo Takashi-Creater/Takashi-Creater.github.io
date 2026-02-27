@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Takashi Creater | Home</title>
+<meta name="keywords" content="home, portfolio, links">
+<meta name="description" content="ホームから各ページへアクセスできる案内ページ">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../shared/style.css">
+<style>
+.inner {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 2rem;
+  align-items: start;
+}
+.main-content {
+  min-width: 0;
+}
+.calendar-sidebar {
+  position: sticky;
+  top: 2rem;
+}
+.calendar-widget {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.calendar-header h3 {
+  margin: 0;
+  color: var(--brand);
+  font-size: 1.1rem;
+}
+.calendar-nav {
+  display: flex;
+  gap: 0.5rem;
+}
+.calendar-nav button {
+  background: var(--brand);
+  color: white;
+  border: none;
+  padding: 0.3rem 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.calendar-nav button:hover {
+  opacity: 0.8;
+}
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+.calendar-day-header {
+  text-align: center;
+  font-weight: 600;
+  padding: 0.5rem;
+  color: #666;
+  font-size: 0.85rem;
+}
+.calendar-day {
+  text-align: center;
+  padding: 0.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-size: 0.9rem;
+}
+.calendar-day:hover {
+  background: #f0f0f0;
+}
+.calendar-day.today {
+  background: var(--brand);
+  color: white;
+  font-weight: bold;
+}
+.calendar-day.other-month {
+  color: #ccc;
+}
+@media (max-width: 900px) {
+  .inner {
+    grid-template-columns: 1fr;
+  }
+  .calendar-sidebar {
+    position: static;
+    order: -1;
+  }
+}
+</style>
+</head>
+<body>
+<div id="outer">
+<header>
+<div class="header-inner">
+<h1>Takashi Creater</h1>
+<p>ホームから各ページへ。更新や作品をまとめています。</p>
+</div>
+</header>
+<div id="content">
+<div class="inner">
+<div class="main-content">
+<h2>ホーム</h2>
+<p>このページがスタート地点です。下のリンクから各エリアに移動できます。</p>
+
+<h3>About</h3>
+<p>自己紹介や活動内容をまとめる場所です。</p>
+<p><a href="../about/">Aboutページへ</a></p>
+
+<h3>Works</h3>
+<p>制作物や実験ページへのリンクを集めます。</p>
+<p><a href="../works/">Worksページへ</a></p>
+
+<h3>Blog</h3>
+<p>更新ログや小さなメモを置くコーナーです。</p>
+<p><a href="../blog/">Blogページへ</a></p>
+
+<h3>Weather</h3>
+<p>現在地の天気情報をリアルタイムで表示します。</p>
+<p><a href="../weather/">Weatherページへ</a></p>
+
+<h3>Travel</h3>
+<p>世界のおすすめ観光地を紹介。カテゴリ別に探索できます。</p>
+<p><a href="../travel/">Travelページへ</a></p>
+
+<h3>Sweets</h3>
+<p>お菓子作りのレシピ集。カテゴリ別に手作りスイーツが探せます。</p>
+<p><a href="../sweets/">Sweetsページへ</a></p>
+
+<h3>Fitness</h3>
+<p>ワークアウト記録と健康管理。トレーニングメニューを管理します。</p>
+<p><a href="../fitness/">Fitnessページへ</a></p>
+
+<h3>Contact</h3>
+<p>問い合わせやSNSのリンクをまとめます。</p>
+<p><a href="../contact/">Contactページへ</a></p>
+</div>
+
+<div class="calendar-sidebar">
+<div class="calendar-widget">
+  <div class="calendar-header">
+    <h3 id="calendarMonth">2026年2月</h3>
+    <div class="calendar-nav">
+      <button onclick="changeMonth(-1)">←</button>
+      <button onclick="changeMonth(1)">→</button>
+    </div>
+  </div>
+  <div class="calendar-grid" id="calendarGrid"></div>
+</div>
+</div>
+</div>
+<aside>
+<div class="left-title">サイトメニュー</div>
+<nav class="link" aria-label="site">
+<ul>
+<li><a href="../">Home</a></li>
+<li><a href="../about/">About</a></li>
+<li><a href="../works/">Works</a></li>
+<li><a href="../blog/">Blog</a></li>
+<li><a href="../weather/">Weather</a></li>
+<li><a href="../travel/">Travel</a></li>
+<li><a href="../sweets/">Sweets</a></li>
+<li><a href="../fitness/">Fitness</a></li>
+<li><a href="../contact/">Contact</a></li>
+</ul>
+</nav>
+</aside>
+</div>
+<footer>© 2026 Takashi Creater</footer>
+</div>
+
+<script>
+let currentDate = new Date();
+
+function renderCalendar() {
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+  
+  // ヘッダー更新
+  document.getElementById('calendarMonth').textContent = 
+    `${year}年${month + 1}月`;
+  
+  // カレンダーグリッド作成
+  const grid = document.getElementById('calendarGrid');
+  grid.innerHTML = '';
+  
+  // 曜日ヘッダー
+  const dayHeaders = ['日', '月', '火', '水', '木', '金', '土'];
+  dayHeaders.forEach(day => {
+    const header = document.createElement('div');
+    header.className = 'calendar-day-header';
+    header.textContent = day;
+    grid.appendChild(header);
+  });
+  
+  // 月の最初の日と最後の日
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+  const startDayOfWeek = firstDay.getDay();
+  
+  // 前月の日付
+  const prevMonthLastDay = new Date(year, month, 0).getDate();
+  for (let i = startDayOfWeek - 1; i >= 0; i--) {
+    const dayDiv = document.createElement('div');
+    dayDiv.className = 'calendar-day other-month';
+    dayDiv.textContent = prevMonthLastDay - i;
+    grid.appendChild(dayDiv);
+  }
+  
+  // 今月の日付
+  const today = new Date();
+  for (let day = 1; day <= lastDay.getDate(); day++) {
+    const dayDiv = document.createElement('div');
+    dayDiv.className = 'calendar-day';
+    dayDiv.textContent = day;
+    
+    // 今日の日付をハイライト
+    if (year === today.getFullYear() && 
+        month === today.getMonth() && 
+        day === today.getDate()) {
+      dayDiv.classList.add('today');
+    }
+    
+    grid.appendChild(dayDiv);
+  }
+  
+  // 次月の日付
+  const remainingCells = 42 - grid.children.length + 7;
+  for (let day = 1; day <= remainingCells; day++) {
+    const dayDiv = document.createElement('div');
+    dayDiv.className = 'calendar-day other-month';
+    dayDiv.textContent = day;
+    grid.appendChild(dayDiv);
+  }
+}
+
+function changeMonth(delta) {
+  currentDate.setMonth(currentDate.getMonth() + delta);
+  renderCalendar();
+}
+
+window.addEventListener('load', renderCalendar);
+</script>
+</body>
+</html>

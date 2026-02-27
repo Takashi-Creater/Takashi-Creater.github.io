@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Takashi Creater | Sweets Recipe</title>
+<meta name="keywords" content="お菓子, レシピ, スイーツ">
+<meta name="description" content="お菓子作りのレシピ集">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+  color: #333;
+  line-height: 1.6;
+  background: linear-gradient(135deg, #ffeef8 0%, #fff5e6 100%);
+  min-height: 100vh;
+}
+header {
+  background: linear-gradient(135deg, #ff6b9d 0%, #ffa07a 100%);
+  color: white;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+header p {
+  font-size: 1.1rem;
+  opacity: 0.95;
+}
+.back-link {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  opacity: 0.9;
+  transition: opacity 0.3s;
+}
+.back-link:hover {
+  opacity: 1;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+.filter-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.filter-btn {
+  background: white;
+  border: 2px solid #ff6b9d;
+  color: #ff6b9d;
+  padding: 0.6rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+.filter-btn:hover {
+  background: #ff6b9d;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 107, 157, 0.3);
+}
+.filter-btn.active {
+  background: #ff6b9d;
+  color: white;
+}
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.recipe-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+.recipe-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+.recipe-image {
+  width: 100%;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+}
+.recipe-content {
+  padding: 1.5rem;
+}
+.recipe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 1rem;
+}
+.recipe-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #333;
+}
+.recipe-category {
+  background: #ff6b9d;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.recipe-meta {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+.recipe-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.difficulty {
+  color: #ffa500;
+  font-size: 1rem;
+}
+.ingredients {
+  margin-bottom: 1rem;
+}
+.ingredients-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #555;
+  font-size: 0.95rem;
+}
+.ingredients-list {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.8;
+}
+.recipe-description {
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-top: 0.8rem;
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+}
+</style>
+</head>
+<body>
+<header>
+<a href="../" class="back-link">← ホームへ戻る</a>
+<h1>🍰 お菓子作りレシピ</h1>
+<p>手作りスイーツのレシピ集。カテゴリ別に探索できます。</p>
+</header>
+
+<div class="container">
+<div class="filter-bar">
+<button class="filter-btn active" data-category="all">すべて</button>
+<button class="filter-btn" data-category="クッキー">🍪 クッキー</button>
+<button class="filter-btn" data-category="ケーキ">🍰 ケーキ</button>
+<button class="filter-btn" data-category="和菓子">🍡 和菓子</button>
+<button class="filter-btn" data-category="チョコレート">🍫 チョコレート</button>
+<button class="filter-btn" data-category="その他">🧁 その他</button>
+</div>
+
+<div class="recipe-grid" id="recipeGrid"></div>
+</div>
+
+<script>
+let recipes = [];
+
+// JSONファイルからレシピデータを読み込む
+async function loadRecipes() {
+  try {
+    const response = await fetch('recipes.json');
+    recipes = await response.json();
+    renderRecipes();
+  } catch (error) {
+    console.error('レシピデータの読み込みに失敗しました:', error);
+    document.getElementById('recipeGrid').innerHTML = '<p style="text-align:center;color:#999;">データの読み込みに失敗しました</p>';
+  }
+}
+
+function renderRecipes(filterCategory = 'all') {
+  const grid = document.getElementById('recipeGrid');
+  const filtered = filterCategory === 'all' 
+    ? recipes 
+    : recipes.filter(r => r.category === filterCategory);
+
+  grid.innerHTML = filtered.map(recipe => {
+    const stars = '★'.repeat(recipe.difficulty) + '☆'.repeat(5 - recipe.difficulty);
+    const ingredientsList = recipe.ingredients.map(ing => `• ${ing}`).join('<br>');
+    
+    return `
+      <div class="recipe-card" data-category="${recipe.category}">
+        <div class="recipe-image" style="background-image: url('${recipe.image}')"></div>
+        <div class="recipe-content">
+          <div class="recipe-header">
+            <div class="recipe-title">${recipe.title}</div>
+            <div class="recipe-category">${recipe.category}</div>
+          </div>
+          <div class="recipe-meta">
+            <span class="difficulty" title="難易度">${stars}</span>
+            <span>⏱️ ${recipe.time}</span>
+          </div>
+          <div class="ingredients">
+            <div class="ingredients-title">材料</div>
+            <div class="ingredients-list">${ingredientsList}</div>
+          </div>
+          <div class="recipe-description">${recipe.description}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// フィルターボタンのイベントリスナー
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const category = btn.dataset.category;
+    renderRecipes(category);
+  });
+});
+
+// JSONからデータを読み込んで初期表示
+loadRecipes();
+</script>
+</body>
+</html>

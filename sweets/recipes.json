@@ -1,0 +1,161 @@
+[
+  {
+    "id": 1,
+    "title": "チョコチップクッキー",
+    "category": "クッキー",
+    "difficulty": 2,
+    "time": "30分",
+    "image": "images/recipe_1.jpg",
+    "ingredients": [
+      "バター 100g",
+      "砂糖 80g",
+      "卵 1個",
+      "薄力粉 200g",
+      "チョコチップ 100g"
+    ],
+    "description": "サクサク食感のクラシックなチョコチップクッキー。バターの風味とチョコの甘みが絶妙です。"
+  },
+  {
+    "id": 2,
+    "title": "ニューヨークチーズケーキ",
+    "category": "ケーキ",
+    "difficulty": 3,
+    "time": "90分",
+    "image": "images/recipe_2.jpg",
+    "ingredients": [
+      "クリームチーズ 400g",
+      "生クリーム 200ml",
+      "卵 3個",
+      "砂糖 100g",
+      "レモン汁 大さじ2"
+    ],
+    "description": "濃厚でクリーミーな本格チーズケーキ。レモンの爽やかさがアクセントになっています。"
+  },
+  {
+    "id": 3,
+    "title": "生チョコトリュフ",
+    "category": "チョコレート",
+    "difficulty": 2,
+    "time": "40分",
+    "image": "images/recipe_3.jpg",
+    "ingredients": [
+      "チョコレート 200g",
+      "生クリーム 100ml",
+      "ココアパウダー 適量",
+      "ラム酒 小さじ1"
+    ],
+    "description": "口どけなめらかな生チョコトリュフ。ラム酒の香りが大人の味わいです。"
+  },
+  {
+    "id": 4,
+    "title": "どら焼き",
+    "category": "和菓子",
+    "difficulty": 2,
+    "time": "45分",
+    "image": "images/recipe_4.jpg",
+    "ingredients": [
+      "薄力粉 100g",
+      "卵 2個",
+      "砂糖 70g",
+      "はちみつ 大さじ2",
+      "あんこ 200g"
+    ],
+    "description": "ふんわり生地と甘いあんこの和菓子。はちみつの風味がポイントです。"
+  },
+  {
+    "id": 5,
+    "title": "ガトーショコラ",
+    "category": "ケーキ",
+    "difficulty": 3,
+    "time": "75分",
+    "image": "images/recipe_5.jpg",
+    "ingredients": [
+      "チョコレート 150g",
+      "バター 100g",
+      "卵 4個",
+      "砂糖 80g",
+      "ココアパウダー 30g"
+    ],
+    "description": "しっとり濃厚なチョコレートケーキ。温かくても冷やしても美味しい定番スイーツ。"
+  },
+  {
+    "id": 6,
+    "title": "マカロン",
+    "category": "その他",
+    "difficulty": 4,
+    "time": "120分",
+    "image": "images/recipe_6.jpg",
+    "ingredients": [
+      "アーモンドプードル 100g",
+      "粉糖 100g",
+      "卵白 60g",
+      "グラニュー糖 50g",
+      "食用色素 適量"
+    ],
+    "description": "カラフルで可愛いフランス菓子。外はサクッと中はしっとりの独特な食感が魅力です。"
+  },
+  {
+    "id": 7,
+    "title": "バタークッキー",
+    "category": "クッキー",
+    "difficulty": 1,
+    "time": "25分",
+    "image": "images/recipe_7.jpg",
+    "ingredients": [
+      "バター 120g",
+      "砂糖 60g",
+      "卵黄 1個",
+      "薄力粉 180g",
+      "バニラエッセンス 少々"
+    ],
+    "description": "シンプルで優しい味わいのバタークッキー。初心者にもおすすめの簡単レシピです。"
+  },
+  {
+    "id": 8,
+    "title": "苺大福",
+    "category": "和菓子",
+    "difficulty": 3,
+    "time": "60分",
+    "image": "images/recipe_8.jpg",
+    "ingredients": [
+      "白玉粉 100g",
+      "砂糖 50g",
+      "水 150ml",
+      "苺 8個",
+      "白あん 200g"
+    ],
+    "description": "もちもち生地とフレッシュな苺の組み合わせ。白あんの優しい甘さが苺を引き立てます。"
+  },
+  {
+    "id": 9,
+    "title": "ティラミス",
+    "category": "その他",
+    "difficulty": 2,
+    "time": "30分",
+    "image": "images/recipe_9.jpg",
+    "ingredients": [
+      "マスカルポーネ 250g",
+      "卵 2個",
+      "砂糖 50g",
+      "エスプレッソ 100ml",
+      "ビスケット 200g"
+    ],
+    "description": "イタリアの定番デザート。コーヒーの苦みとマスカルポーネのクリーミーさが絶妙です。"
+  },
+  {
+    "id": 10,
+    "title": "抹茶ブラウニー",
+    "category": "ケーキ",
+    "difficulty": 2,
+    "time": "50分",
+    "image": "images/recipe_10.jpg",
+    "ingredients": [
+      "ホワイトチョコ 150g",
+      "バター 80g",
+      "卵 2個",
+      "砂糖 70g",
+      "抹茶パウダー 15g"
+    ],
+    "description": "ほろ苦い抹茶とホワイトチョコの甘さが調和した和洋折衷ブラウニー。"
+  }
+]

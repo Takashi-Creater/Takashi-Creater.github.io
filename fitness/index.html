@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Takashi Creater | Fitness</title>
+<meta name="keywords" content="fitness, workout, health">
+<meta name="description" content="ワークアウト記録と健康管理">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+  color: #333;
+  line-height: 1.6;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+}
+header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  position: relative;
+}
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+header p {
+  font-size: 1.1rem;
+  opacity: 0.95;
+}
+.back-link {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  opacity: 0.9;
+  transition: opacity 0.3s;
+}
+.back-link:hover {
+  opacity: 1;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  text-align: center;
+  transition: transform 0.3s;
+}
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+.stat-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #667eea;
+  margin-bottom: 0.5rem;
+}
+.stat-label {
+  color: #666;
+  font-size: 1rem;
+}
+.workout-section {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.workout-section h2 {
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-size: 1.8rem;
+}
+.workout-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+.workout-card {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.workout-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+}
+.workout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.workout-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #333;
+}
+.workout-category {
+  background: #667eea;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+}
+.workout-details {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  color: #666;
+  font-size: 0.95rem;
+}
+.workout-details span {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.add-workout-btn {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-bottom: 1.5rem;
+}
+.add-workout-btn:hover {
+  background: #5568d3;
+}
+.workout-form {
+  display: none;
+  background: #f5f7fa;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.workout-form.active {
+  display: block;
+}
+.form-group {
+  margin-bottom: 1rem;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #333;
+}
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+.form-buttons {
+  display: flex;
+  gap: 1rem;
+}
+.btn-save,
+.btn-cancel {
+  flex: 1;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.btn-save {
+  background: #667eea;
+  color: white;
+}
+.btn-save:hover {
+  background: #5568d3;
+}
+.btn-cancel {
+  background: #ddd;
+  color: #333;
+}
+.btn-cancel:hover {
+  background: #ccc;
+}
+</style>
+</head>
+<body>
+<header>
+<a href="../" class="back-link">← ホームへ戻る</a>
+<h1>💪 Fitness Tracker</h1>
+<p>ワークアウト記録と健康管理</p>
+</header>
+
+<div class="container">
+<!-- 統計カード -->
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-icon">🔥</div>
+<div class="stat-value" id="totalWorkouts">0</div>
+<div class="stat-label">総ワークアウト</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon">⏱️</div>
+<div class="stat-value" id="totalMinutes">0</div>
+<div class="stat-label">総時間（分）</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon">📊</div>
+<div class="stat-value" id="weekStreak">0</div>
+<div class="stat-label">今週のワークアウト</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon">🎯</div>
+<div class="stat-value" id="avgDuration">0</div>
+<div class="stat-label">平均時間（分）</div>
+</div>
+</div>
+
+<!-- ワークアウトセクション -->
+<div class="workout-section">
+<h2>ワークアウト記録</h2>
+
+<button class="add-workout-btn" onclick="toggleForm()">➕ 新しいワークアウトを追加</button>
+
+<!-- ワークアウトフォーム -->
+<div class="workout-form" id="workoutForm">
+<div class="form-group">
+<label>ワークアウト名</label>
+<input type="text" id="workoutName" placeholder="例: ランニング">
+</div>
+<div class="form-group">
+<label>カテゴリ</label>
+<select id="workoutCategory">
+<option value="有酸素">有酸素</option>
+<option value="筋トレ">筋トレ</option>
+<option value="ストレッチ">ストレッチ</option>
+<option value="ヨガ">ヨガ</option>
+<option value="その他">その他</option>
+</select>
+</div>
+<div class="form-group">
+<label>時間（分）</label>
+<input type="number" id="workoutDuration" placeholder="30">
+</div>
+<div class="form-group">
+<label>カロリー（kcal）</label>
+<input type="number" id="workoutCalories" placeholder="200">
+</div>
+<div class="form-buttons">
+<button class="btn-save" onclick="saveWorkout()">保存</button>
+<button class="btn-cancel" onclick="toggleForm()">キャンセル</button>
+</div>
+</div>
+
+<div class="workout-grid" id="workoutGrid"></div>
+</div>
+</div>
+
+<script>
+let workouts = JSON.parse(localStorage.getItem('workouts')) || [];
+
+function toggleForm() {
+  const form = document.getElementById('workoutForm');
+  form.classList.toggle('active');
+}
+
+function saveWorkout() {
+  const name = document.getElementById('workoutName').value;
+  const category = document.getElementById('workoutCategory').value;
+  const duration = parseInt(document.getElementById('workoutDuration').value);
+  const calories = parseInt(document.getElementById('workoutCalories').value);
+  
+  if (!name || !duration) {
+    alert('ワークアウト名と時間を入力してください');
+    return;
+  }
+  
+  const workout = {
+    id: Date.now(),
+    name,
+    category,
+    duration,
+    calories,
+    date: new Date().toISOString()
+  };
+  
+  workouts.unshift(workout);
+  localStorage.setItem('workouts', JSON.stringify(workouts));
+  
+  // フォームをリセット
+  document.getElementById('workoutName').value = '';
+  document.getElementById('workoutDuration').value = '';
+  document.getElementById('workoutCalories').value = '';
+  toggleForm();
+  
+  renderWorkouts();
+  updateStats();
+}
+
+function deleteWorkout(id) {
+  if (confirm('このワークアウトを削除しますか？')) {
+    workouts = workouts.filter(w => w.id !== id);
+    localStorage.setItem('workouts', JSON.stringify(workouts));
+    renderWorkouts();
+    updateStats();
+  }
+}
+
+function renderWorkouts() {
+  const grid = document.getElementById('workoutGrid');
+  
+  if (workouts.length === 0) {
+    grid.innerHTML = '<p style="text-align:center;color:#999;">まだワークアウトがありません</p>';
+    return;
+  }
+  
+  grid.innerHTML = workouts.map(workout => {
+    const date = new Date(workout.date);
+    const dateStr = `${date.getMonth() + 1}/${date.getDate()} ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
+    
+    return `
+      <div class="workout-card" onclick="deleteWorkout(${workout.id})">
+        <div class="workout-header">
+          <div class="workout-title">${workout.name}</div>
+          <div class="workout-category">${workout.category}</div>
+        </div>
+        <div class="workout-details">
+          <span>⏱️ ${workout.duration}分</span>
+          <span>🔥 ${workout.calories}kcal</span>
+          <span>📅 ${dateStr}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function updateStats() {
+  const totalWorkouts = workouts.length;
+  const totalMinutes = workouts.reduce((sum, w) => sum + w.duration, 0);
+  
+  // 今週のワークアウト
+  const now = new Date();
+  const weekStart = new Date(now);
+  weekStart.setDate(now.getDate() - now.getDay());
+  weekStart.setHours(0, 0, 0, 0);
+  
+  const weekWorkouts = workouts.filter(w => new Date(w.date) >= weekStart);
+  
+  const avgDuration = totalWorkouts > 0 ? Math.round(totalMinutes / totalWorkouts) : 0;
+  
+  document.getElementById('totalWorkouts').textContent = totalWorkouts;
+  document.getElementById('totalMinutes').textContent = totalMinutes;
+  document.getElementById('weekStreak').textContent = weekWorkouts.length;
+  document.getElementById('avgDuration').textContent = avgDuration;
+}
+
+window.addEventListener('load', () => {
+  renderWorkouts();
+  updateStats();
+});
+</script>
+</body>
+</html>

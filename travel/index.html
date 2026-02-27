@@ -18,9 +18,9 @@ body {
   color: #333;
 }
 .travel-app {
-  max-width: 700px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 20px clamp(12px, 2vw, 28px);
 }
 .header {
   background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 50%, #c92a2a 100%);
@@ -72,9 +72,10 @@ body {
   border-color: #ff6b6b;
 }
 .spots-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 20px;
+  align-items: start;
 }
 .spot-card {
   background: white;
@@ -101,7 +102,7 @@ body {
   background-position: center;
 }
 .spot-content {
-  padding: 20px;
+  padding: 20px clamp(12px, 2vw, 28px);
 }
 .spot-category {
   display: inline-block;
@@ -171,7 +172,7 @@ body {
 .back-link {
   text-align: center;
   margin-top: 30px;
-  padding: 20px;
+  padding: 20px clamp(12px, 2vw, 28px);
 }
 .back-link a {
   color: white;
@@ -189,6 +190,18 @@ body {
   background: #ee5a6f;
   transform: scale(1.05);
 }
+
+@media (max-width: 768px) {
+  .travel-app {
+    max-width: 100%;
+    padding: 14px;
+  }
+  .spots-list {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
 </style>
 </head>
 <body>

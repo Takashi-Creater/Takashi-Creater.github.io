@@ -27,6 +27,8 @@ a{text-decoration:none;color:inherit}
 
 .hero h1{margin:0 0 8px;font-size:40px;letter-spacing:.02em}
 .hero p{margin:0;opacity:.92}
+.hero-meta{margin-top:14px;display:inline-flex;align-items:center;gap:10px;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.18);backdrop-filter:blur(4px);font-weight:600}
+#liveTime{font-variant-numeric:tabular-nums;letter-spacing:.04em}
 .layout{display:grid;grid-template-columns:1fr 300px;gap:22px;margin-top:22px}
 .main-card,.side-card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 24px rgba(16,24,40,.06)}
 .main-card{padding:24px}
@@ -67,6 +69,7 @@ footer{padding:20px 0 8px;text-align:center;color:var(--muted);font-size:13px}
   <header class="hero">
     <h1>Takashi Creater</h1>
     <p>Portfolio / Works / Experiments</p>
+    <div class="hero-meta">🕒 <span id="liveTime">--:--:--</span></div>
   </header>
 
   <div class="layout">
@@ -83,6 +86,7 @@ footer{padding:20px 0 8px;text-align:center;color:var(--muted);font-size:13px}
         <a class="link-card" href="../sweets/"><div class="card-thumb" style="background-image:url('https://images.unsplash.com/photo-1488477304112-4944851de03d?auto=format&fit=crop&w=1200&q=80')"></div><div class="card-body"><h3>Sweets</h3><p>お菓子作りのレシピをカテゴリ別に探せます。</p><span class="go">ページを開く →</span></div></a>
         <a class="link-card" href="../fitness/"><div class="card-thumb" style="background-image:url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1200&q=80')"></div><div class="card-body"><h3>Fitness</h3><p>ワークアウト記録と健康管理のページです。</p><span class="go">ページを開く →</span></div></a>
         <a class="link-card" href="../contact/"><div class="card-thumb" style="background-image:url('https://images.unsplash.com/photo-1521790797524-b2497295b8a0?auto=format&fit=crop&w=1200&q=80')"></div><div class="card-body"><h3>Contact</h3><p>問い合わせやSNSリンクをまとめています。</p><span class="go">ページを開く →</span></div></a>
+      <a class="link-card" href="../domestic-trip/"><div class="card-thumb" style="background-image:url('https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=1200&q=80')"></div><div class="card-body"><h3>Domestic Trip</h3><p>国内旅行の交通費とホテルをまとめて比較。</p><span class="go">ページを開く →</span></div></a>
       </div>
     </main>
 
@@ -142,7 +146,22 @@ function renderCalendar() {
   for (let day = 1; day <= trailingCells; day++) { const d=document.createElement('div'); d.className='calendar-day other-month'; const dow=(grid.children.length-7)%7; if(dow===0) d.classList.add('sunday'); if(dow===6) d.classList.add('saturday'); d.textContent=day; grid.appendChild(d); }
 }
 function changeMonth(delta){ currentDate.setMonth(currentDate.getMonth()+delta); renderCalendar(); }
-window.addEventListener('load', renderCalendar);
+function startClock(){
+  const el=document.getElementById('liveTime');
+  const tick=()=>{
+    const now=new Date();
+    const y=now.getFullYear();
+    const m=String(now.getMonth()+1).padStart(2,'0');
+    const d=String(now.getDate()).padStart(2,'0');
+    const h=String(now.getHours()).padStart(2,'0');
+    const mi=String(now.getMinutes()).padStart(2,'0');
+    const s=String(now.getSeconds()).padStart(2,'0');
+    el.textContent=`${y}/${m}/${d} ${h}:${mi}:${s}`;
+  };
+  tick();
+  setInterval(tick,1000);
+}
+window.addEventListener('load', () => { renderCalendar(); startClock(); });
 </script>
 </body>
 </html>

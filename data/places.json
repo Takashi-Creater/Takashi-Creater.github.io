@@ -1,0 +1,30 @@
+{
+  "updatedAt": "2026-02-28",
+  "source": "seed-manual-v1",
+  "cities": [
+    {"name":"豊橋","prefecture":"愛知県","lat":34.7692,"lng":137.3915,"type":"city","x":160,"y":125},
+    {"name":"東京","prefecture":"東京都","lat":35.6762,"lng":139.6503,"type":"metro","x":205,"y":110},
+    {"name":"名古屋","prefecture":"愛知県","lat":35.1815,"lng":136.9066,"type":"metro","x":145,"y":130},
+    {"name":"大阪","prefecture":"大阪府","lat":34.6937,"lng":135.5023,"type":"metro","x":120,"y":138},
+    {"name":"福岡","prefecture":"福岡県","lat":33.5902,"lng":130.4017,"type":"metro","x":55,"y":172},
+    {"name":"札幌","prefecture":"北海道","lat":43.0618,"lng":141.3545,"type":"metro","x":290,"y":42},
+    {"name":"釧路","prefecture":"北海道","lat":42.9849,"lng":144.3814,"type":"city","x":330,"y":28},
+    {"name":"沖縄","prefecture":"沖縄県","lat":26.2124,"lng":127.6809,"type":"region","x":30,"y":205}
+  ],
+  "stations": [
+    {"name":"豊橋駅","city":"豊橋"},
+    {"name":"釧路駅","city":"釧路"},
+    {"name":"東京駅","city":"東京"},
+    {"name":"新大阪駅","city":"大阪"}
+  ],
+  "airports": [
+    {"name":"中部国際空港","city":"豊橋"},
+    {"name":"釧路空港","city":"釧路"},
+    {"name":"羽田空港","city":"東京"},
+    {"name":"伊丹空港","city":"大阪"}
+  ],
+  "ferryPorts": [
+    {"name":"苫小牧港","city":"札幌"},
+    {"name":"敦賀港","city":"大阪"}
+  ]
+}

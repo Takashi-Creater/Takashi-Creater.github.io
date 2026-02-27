@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>国内交通費プランナー | Takashi Creater</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--ink:#1f2937;--muted:#6b7280;--brand:#2563eb;--ok:#059669;--line:#e5e7eb}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,'Noto Sans JP',sans-serif;background:var(--bg);color:var(--ink)}
+.wrap{max-width:1180px;margin:0 auto;padding:20px}
+.hero{background:linear-gradient(135deg,#2563eb,#4f46e5);color:#fff;padding:22px;border-radius:16px}
+.grid{display:grid;grid-template-columns:420px 1fr;gap:16px;margin-top:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+label{display:block;font-size:13px;color:var(--muted);margin:10px 0 6px}
+select,input{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:10px;background:#fff}
+.btn{margin-top:12px;width:100%;padding:11px;border:none;border-radius:10px;background:var(--brand);color:#fff;font-weight:700;cursor:pointer}
+.kpi{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.box{border:1px solid var(--line);border-radius:10px;padding:10px;background:#fafafa}
+.m{font-size:12px;color:var(--muted)}
+.v{font-size:20px;font-weight:800}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.map-tools{display:flex;gap:8px;margin-bottom:10px}
+.map-tools button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 10px;cursor:pointer}
+.map-tools .active{background:#eef2ff;border-color:#c7d2fe;color:#3730a3;font-weight:700}
+#gmapFrame{width:100%;height:220px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.map-help{font-size:12px;color:var(--muted);margin-top:6px}
+.ext-links{margin-top:14px;padding-top:10px;border-top:1px dashed #d1d5db}
+.ext-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+.ext-btn{display:block;padding:9px 10px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:#1f2937;font-size:13px;text-align:center;text-decoration:none}
+.suggest-wrap{position:relative}
+.suggest-list{position:absolute;left:0;right:0;z-index:20;max-height:220px;overflow:auto;background:#fff;border:1px solid #cbd5e1;border-radius:10px;margin-top:6px;display:none}
+.suggest-item{padding:8px 10px;font-size:13px;cursor:pointer}
+.suggest-item:hover{background:#eef2ff}
+.transport-checks{display:flex;gap:10px;flex-wrap:wrap;padding:10px;border:1px solid #cbd5e1;border-radius:10px;background:#fff}
+.transport-checks label{display:flex;align-items:center;gap:6px;font-size:13px;color:#374151}
+.time-opt{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:13px;color:#374151}
+@media (max-width:960px){.grid{grid-template-columns:1fr}.kpi{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>国内交通費プランナー</h1>
+    <p>地図選択 + 交通費（新幹線 / 飛行機 / フェリー）の概算計算</p>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h3>条件入力</h3>
+      <div class="map-tools">
+        <button id="pickFrom" class="active" type="button" onclick="setPickMode('from')">Googleマップで出発地入力</button>
+        <button id="pickTo" type="button" onclick="setPickMode('to')">Googleマップで目的地入力</button>
+      </div>
+
+      <iframe id="gmapFrame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=日本&output=embed"></iframe>
+      <div class="map-help">地図クリックで自動入力はできません（Google仕様）。上のボタンでGoogleマップを開き、地名をコピーして入力してください。</div>
+
+      <div class="row2">
+        <div class="suggest-wrap">
+          <label>出発地（自由入力）</label>
+          <input id="fromQuery" placeholder="例: 豊橋 / 愛知県豊橋市" oninput="showSuggest('from')" />
+          <div id="fromSuggest" class="suggest-list"></div>
+        </div>
+        <div class="suggest-wrap">
+          <label>目的地（自由入力）</label>
+          <input id="toQuery" placeholder="例: 釧路 / 北海道釧路市" oninput="showSuggest('to')" />
+          <div id="toSuggest" class="suggest-list"></div>
+        </div>
+      </div>
+
+      <div class="row2">
+        <div>
+          <label>公共交通機関（複数選択）</label>
+          <div class="transport-checks">
+            <label><input type="checkbox" class="modeCheck" value="shinkansen" checked> 新幹線</label>
+            <label><input type="checkbox" class="modeCheck" value="train" checked> 電車</label>
+            <label><input type="checkbox" class="modeCheck" value="air" checked> 飛行機</label>
+            <label><input type="checkbox" class="modeCheck" value="ferry"> フェリー</label>
+          </div>
+        </div>
+        <div><label>出発日</label><input id="date" type="date" /></div>
+      </div>
+      <div class="row2">
+        <div><label>出発時刻</label><input id="time" type="time" /></div>
+        <div><label>到着希望時刻</label><input id="arriveTime" type="time" /></div>
+      </div>
+      <div class="time-opt">
+        <label><input id="noDepartTime" type="checkbox" checked onchange="toggleTimeInputs()" /> 出発時刻 指定なし</label>
+        <label><input id="noArriveTime" type="checkbox" checked onchange="toggleTimeInputs()" /> 到着時刻 指定なし</label>
+      </div>
+      <div class="row2">
+        <div><label>人数（大人）</label><input id="people" type="number" min="1" value="1" /></div>
+        <div><label>予算上限（任意）</label><input id="budget" type="number" min="0" placeholder="例: 120000" /></div>
+      </div>
+      
+
+      <button class="btn" onclick="calc()">交通費を計算</button>
+      <p class="m">※候補にない地名も検索可能（外部検索リンクを生成）。料金計算は対応ルートのみ。</p>
+    </div>
+
+    <div class="card" id="result"></div>
+  </div>
+</div>
+
+<script>
+const routePrice = {
+  '豊橋': {'釧路': {shinkansen:36000, train:34000, air:29000, ferry:21000}, '東京': {shinkansen:11000, train:9800, air:17000}, '大阪': {shinkansen:9000, train:8200, air:15000}},
+  '東京': {'大阪':{shinkansen:14000,train:12000,air:17000},'札幌':{air:27000,train:39000},'福岡':{air:32000,train:30000},'沖縄':{air:38000},'釧路':{shinkansen:42000,train:40000,air:26000,ferry:24000}},
+  '大阪': {'東京':14000,'札幌':26000,'福岡':18000,'沖縄':28000},
+  '名古屋': {'東京':11000,'大阪':7000,'札幌':25000,'福岡':24000,'沖縄':33000},
+  '福岡': {'東京':32000,'大阪':18000,'札幌':35000,'沖縄':22000}
+};
+
+let addressCandidates = [];
+const knownCities = ['豊橋','東京','名古屋','大阪','福岡','札幌','釧路','沖縄'];
+let pickMode='from';
+
+function normalizeCity(text){
+  const s = (text||'').trim();
+  if(!s) return '';
+  const exact = knownCities.find(c => c===s);
+  if(exact) return exact;
+  const include = knownCities.find(c => s.includes(c));
+  if(include) return include;
+  return s;
+}
+
+function setPickMode(mode){
+  pickMode = mode;
+  document.getElementById('pickFrom').classList.toggle('active', mode==='from');
+  document.getElementById('pickTo').classList.toggle('active', mode==='to');
+  const fromText = document.getElementById('fromQuery').value.trim() || '豊橋';
+  const toText = document.getElementById('toQuery').value.trim() || '釧路';
+  const q = mode==='from' ? fromText : toText;
+  const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+  window.open(url, '_blank', 'noopener');
+}
+
+function renderPins(){
+  const fromText = document.getElementById('fromQuery').value.trim() || '日本';
+  const toText = document.getElementById('toQuery').value.trim();
+  const frame = document.getElementById('gmapFrame');
+  frame.src = `https://www.google.com/maps?q=${encodeURIComponent(toText?`${fromText} ${toText}`:fromText)}&output=embed`;
+}
+
+async function loadAddressCandidates(){
+  try{
+    const res = await fetch('../data/address_candidates.json');
+    const data = await res.json();
+    addressCandidates = data.items || [];
+  }catch(e){ console.warn(e); }
+}
+
+function hideSuggest(kind){ document.getElementById(kind+'Suggest').style.display='none'; }
+
+function showSuggest(kind){
+  const input = document.getElementById(kind+'Query');
+  const box = document.getElementById(kind+'Suggest');
+  const q = input.value.trim().toLowerCase();
+  renderPins();
+  if(q.length < 2){ box.style.display='none'; box.innerHTML=''; return; }
+  const hits = addressCandidates.filter(a=>a.label.toLowerCase().includes(q)).slice(0,15);
+  if(!hits.length){ box.style.display='none'; box.innerHTML=''; return; }
+  box.innerHTML = hits.map(h=>`<div class='suggest-item' data-val='${h.label.replace(/'/g,"&#39;")}'>${h.label}</div>`).join('');
+  box.querySelectorAll('.suggest-item').forEach(el=>{
+    el.onclick = ()=>{ input.value = el.getAttribute('data-val'); hideSuggest(kind); renderPins(); };
+  });
+  box.style.display='block';
+}
+
+document.addEventListener('click', (e)=>{
+  if(!e.target.closest('.suggest-wrap')){ hideSuggest('from'); hideSuggest('to'); }
+});
+
+
+function toggleTimeInputs(){
+  const noDep = document.getElementById('noDepartTime').checked;
+  const noArr = document.getElementById('noArriveTime').checked;
+  const dep = document.getElementById('time');
+  const arr = document.getElementById('arriveTime');
+  dep.disabled = noDep;
+  arr.disabled = noArr;
+  if(noDep) dep.value = '';
+  if(noArr) arr.value = '';
+}
+
+function yen(v){return '¥' + Math.round(v).toLocaleString('ja-JP')}
+function seasonMultiplier(dateStr){ if(!dateStr) return 1.0; const m=(new Date(dateStr)).getMonth()+1; if([3,4,8,12].includes(m)) return 1.18; if([1,2,6,11].includes(m)) return 0.95; return 1.0; }
+function modeLabel(mode){ return ({shinkansen:'新幹線',train:'電車',air:'飛行機',ferry:'フェリー'})[mode] || mode; }
+function getOneWayByModes(f,t,modes){
+  const a=routePrice[f]?.[t], b=routePrice[t]?.[f];
+  const src = a ?? b;
+  if(!src) return [];
+  const results=[];
+  for(const m of modes){
+    let v=null;
+    if(typeof src==='number'){ v = (m==='shinkansen') ? src : null; }
+    else if(typeof src==='object'){ v = src[m] ?? null; }
+    if(v!=null) results.push({mode:m, oneWay:v});
+  }
+  return results;
+}
+
+function externalSearchLinks(fromText,toText,date,time,arriveTime,people,modes){
+  const yyyy = date ? date.slice(0,4) : '';
+  const mm = date ? date.slice(5,7) : '';
+  const dd = date ? date.slice(8,10) : '';
+  const hh = time ? time.slice(0,2) : '09';
+  const mi = time ? time.slice(3,5) : '00';
+  const jorudan = `https://www.jorudan.co.jp/norikae/cgi/nori.cgi?eki1=${encodeURIComponent(fromText)}&eki2=${encodeURIComponent(toText)}${date?`&Dym=${yyyy}${mm}&Ddd=${dd}`:''}&Dhh=${hh}&Dmn=${mi}&Cway=0`;
+  const modeText = modes.map(modeLabel).join('・') || '公共交通';
+  const qTransit = encodeURIComponent(`${fromText} ${toText} ${modeText} ${date||''} ${time||''} 到着${arriveTime||''} ${people}名`);
+  return [
+    {label:'ジョルダンで検索', url:jorudan},
+    {label:'Google検索（交通）', url:`https://www.google.com/search?q=${qTransit}`}
+  ];
+}
+
+function calc(){
+  const fromText = document.getElementById('fromQuery').value.trim();
+  const toText = document.getElementById('toQuery').value.trim();
+  const f = normalizeCity(fromText);
+  const t = normalizeCity(toText);
+  const selectedModes = Array.from(document.querySelectorAll('.modeCheck:checked')).map(el=>el.value);
+  const date=document.getElementById('date').value;
+  const noDep = document.getElementById('noDepartTime').checked;
+  const noArr = document.getElementById('noArriveTime').checked;
+  const time = noDep ? '' : document.getElementById('time').value;
+  const arriveTime = noArr ? '' : document.getElementById('arriveTime').value;
+  const people=Math.max(1, Number(document.getElementById('people').value||1));
+  const budget=Math.max(0, Number(document.getElementById('budget').value||0));
+
+  if(!fromText || !toText){ document.getElementById('result').innerHTML='<h3>出発地と目的地を入力してください</h3>'; return; }
+  if(fromText===toText){ document.getElementById('result').innerHTML='<h3>出発地と目的地を変えてください</h3>'; return; }
+
+  const candidates=getOneWayByModes(f,t,selectedModes);
+  const mapEmbed = `<div class='ext-links'><h4>Googleマップ（埋め込み）</h4><iframe style='width:100%;height:260px;border:0;border-radius:10px' loading='lazy' referrerpolicy='no-referrer-when-downgrade' src='https://www.google.com/maps?q=${encodeURIComponent(fromText + ' ' + toText)}&output=embed'></iframe></div>`;
+
+  const links = externalSearchLinks(fromText,toText,date,time,arriveTime,people,selectedModes);
+  const linksHtml = `
+    <div class='ext-links'>
+      <h4>検索サマリー（無料運用）</h4>
+      <p class='m'>実サイトの本文埋め込みはせず、検索条件を整えて開く方式です。</p>
+      <div class='box' style='margin:8px 0'>
+        <div class='m'>ジョルダン</div>
+        <div style='font-weight:700'>${fromText} → ${toText} / ${date||'日付未指定'} ${time||'時刻未指定'}</div>
+      </div>
+      <div class='box' style='margin:8px 0'>
+        <div class='m'>Google 検索（交通）</div>
+        <div style='font-weight:700'>${selectedModes.map(modeLabel).join('・')} / ${people}名</div>
+      </div>
+      <div class='ext-grid'>
+        ${links.map(l=>`<a class='ext-btn' href='${l.url}' target='_blank' rel='noopener noreferrer'>${l.label}</a>`).join('')}
+      </div>
+    </div>`;
+
+  if(!selectedModes.length){ document.getElementById('result').innerHTML='<h3>移動手段を1つ以上選択してください</h3>'; return; }
+
+  if(!candidates.length){
+    document.getElementById('result').innerHTML = `
+      <h3>${fromText} → ${toText} の交通費</h3>
+      <p class='m'>このルートの料金データは未登録です（選択手段: ${selectedModes.map(modeLabel).join('・')}）。候補にない地名でも外部検索は利用できます。</p>
+      ${linksHtml}
+      ${mapEmbed}
+    `;
+    return;
+  }
+
+  const mult=seasonMultiplier(date);
+  const priced = candidates.map(c=>({mode:c.mode,oneWay:c.oneWay*mult,total:c.oneWay*mult*2*people})).sort((x,y)=>x.total-y.total);
+  const best = priced[0];
+  const oneWay=best.oneWay;
+  const total=best.total;
+  const over=budget>0?total-budget:0;
+
+  document.getElementById('result').innerHTML = `
+    <h3>${fromText} → ${toText} の交通費</h3>
+    <p class='m'>選択手段: ${selectedModes.map(modeLabel).join('・')} / 最安候補: ${modeLabel(best.mode)} / 出発: ${date||'未指定'} ${time||'指定なし'} / 到着希望: ${arriveTime||'指定なし'} / 繁忙期係数: ×${mult.toFixed(2)}</p>
+    <div class='kpi'>
+      <div class='box'><div class='m'>片道（1人）</div><div class='v'>${yen(oneWay)}</div></div>
+      <div class='box'><div class='m'>往復合計（全員）</div><div class='v' style='color:var(--ok)'>${yen(total)}</div></div>
+    </div>
+    <p class='m' style='margin-top:8px'>候補: ${priced.map(p=>`${modeLabel(p.mode)} ${yen(p.total)}`).join(' / ')}</p>
+    ${budget>0 ? `<p class='m' style='margin-top:8px'>予算判定: ${over>0 ? `<span style='color:#dc2626'>${yen(over)} 超過</span>` : `<span style='color:#059669'>予算内 (${yen(budget-total)} 余裕)</span>`}</p>` : ''}
+    ${linksHtml}
+    ${mapEmbed}
+  `;
+}
+
+// defaults
+const today = new Date();
+document.getElementById('date').valueAsDate = today;
+document.getElementById('fromQuery').value = '豊橋';
+document.getElementById('toQuery').value = '釧路';
+
+loadAddressCandidates();
+toggleTimeInputs();
+renderPins();
+calc();
+</script>
+</body>
+</html>
